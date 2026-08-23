@@ -19,43 +19,11 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt update
-        sudo apt install -y \
-          build-essential \
-          git \
-          zip \
-          unzip \
-          openjdk-17-jdk \
-          autoconf \
-          libtool \
-          pkg-config \
-          zlib1g-dev \
-          libncurses5-dev \
-          libncursesw5-dev \
-          cmake \
-          libffi-dev \
-          libssl-dev
-    
-    - name: Install Android SDK
-      run: |
-        mkdir -p $HOME/Android/Sdk
-        cd $HOME/Android/Sdk
-        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip commandlinetools-linux-9477386_latest.zip
-        rm commandlinetools-linux-9477386_latest.zip
-        mkdir -p cmdline-tools/latest
-        mv cmdline-tools/* cmdline-tools/latest/ 2>/dev/null || true
-        yes | cmdline-tools/latest/bin/sdkmanager --licenses
-        cmdline-tools/latest/bin/sdkmanager "build-tools;33.0.0" "platform-tools" "platforms;android-33"
-    
-    - name: Install Python dependencies
-      run: |
+        sudo apt install -y build-essential git zip unzip openjdk-17-jdk
         pip install --upgrade pip
         pip install buildozer cython==0.29.33
     
     - name: Build APK
-      env:
-        ANDROID_HOME: ${{ github.workspace }}/../../Android/Sdk
-        ANDROID_SDK_ROOT: ${{ github.workspace }}/../../Android/Sdk
       run: |
         buildozer android debug
     
